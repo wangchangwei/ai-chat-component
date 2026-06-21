@@ -1,0 +1,93 @@
+{
+  "nav": {
+    "home": "Home",
+    "home_desc": "What & why",
+    "components": "Components",
+    "components_desc": "Live demos",
+    "playground": "Playground",
+    "playground_desc": "JSON → render",
+    "assistant_ui": "Assistant UI",
+    "assistant_ui_desc": "Chat HITL demo",
+    "ai_sdk": "Vercel AI SDK",
+    "ai_sdk_desc": "Chat HITL demo",
+    "examples": "Examples",
+    "examples_desc": "4 agent flows"
+  },
+  "sidebar": {
+    "github": "GitHub",
+    "language": "Language"
+  },
+  "home": {
+    "tagline": "Human-in-the-Loop components",
+    "gap_title": "The gap",
+    "gap_body": "Today's chat frameworks stop at Markdown. When an agent needs the user to pick a database, fill a form, or confirm a deletion, the conversation stalls. AI Business UI gives the agent a way to render structured input — using nothing more than JSON.",
+    "contract_title": "The contract",
+    "contract_body": "The renderer looks up the component by name, validates the props with Zod, and renders the matching React component.",
+    "what_you_get": "What you get",
+    "feature_0": "9 components: radio, checkbox, select, form, wizard, card, table, upload.",
+    "feature_1": "A registry — add a new component in one line.",
+    "feature_2": "Zod-validated props; TypeScript types inferred end-to-end.",
+    "feature_3": "Assistant UI & Vercel AI SDK adapters shipped in-box.",
+    "feature_4": "Headless hooks for full restyling.",
+    "feature_5": "Dark-mode + Tailwind + shadcn defaults.",
+    "btn_browse": "Browse components",
+    "btn_playground": "Open playground"
+  },
+  "components": {
+    "title": "Components",
+    "subtitle": "Each card below renders an example schema. Interact with the UI; the result appears below."
+  },
+  "examples": {
+    "title": "Examples",
+    "subtitle": "Four worked agent flows. Each example shows the user prompt, the agent's emitted schema, and the value the user submits back.",
+    "hide": "Hide details",
+    "show": "Show details",
+    "user_says": "User says",
+    "agent_emits": "Agent emits",
+    "submitted": "Submitted back to agent"
+  },
+  "assistant_ui": {
+    "title": "Assistant UI adapter",
+    "subtitle": "This page mirrors how an Assistant UI chat thread would render a show_ui tool result via the adapter.",
+    "hints": "Try: 'pick a database', 'create a website'",
+    "chat_thread": "Chat thread"
+  },
+  "ai_sdk": {
+    "title": "Vercel AI SDK adapter",
+    "subtitle": "Renders any data-ui or tool-show_ui part inside an AI-SDK message via the AIMessageUI adapter.",
+    "hints": "Try: 'create a website', 'pick a database'",
+    "chat_thread": "Chat thread"
+  },
+  "playground": {
+    "title": "Playground",
+    "subtitle": "Paste any UIAction schema and see it rendered.",
+    "schema_json": "Schema JSON",
+    "schema_shape": "{ component, props } shape",
+    "valid_json": "✓ Valid JSON",
+    "invalid_json": "✗",
+    "reset": "Reset",
+    "live_output": "Live output from the registry",
+    "fix_json": "Fix JSON to render.",
+    "result_label": "Result",
+    "result_desc": "Value emitted by onSubmit / onCancel"
+  },
+  "common": {
+    "schema": "Schema",
+    "render": "Render",
+    "result": "Result",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "submit": "Submit",
+    "interact": "— interact above —",
+    "cancelled": "(cancelled)"
+  },
+  "title": {
+    "overview": "Overview",
+    "components": "Components",
+    "playground": "Playground",
+    "assistant_ui": "Assistant UI",
+    "ai_sdk": "AI SDK",
+    "examples": "Examples",
+    "not_found": "404"
+  }
+}

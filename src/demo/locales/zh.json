@@ -1,0 +1,93 @@
+{
+  "nav": {
+    "home": "首页",
+    "home_desc": "简介",
+    "components": "组件",
+    "components_desc": "组件演示",
+    "playground": "Playground",
+    "playground_desc": "JSON → 渲染",
+    "assistant_ui": "Assistant UI",
+    "assistant_ui_desc": "聊天 HITL 示例",
+    "ai_sdk": "Vercel AI SDK",
+    "ai_sdk_desc": "聊天 HITL 示例",
+    "examples": "示例",
+    "examples_desc": "4 个 Agent 流程"
+  },
+  "sidebar": {
+    "github": "GitHub",
+    "language": "语言"
+  },
+  "home": {
+    "tagline": "人机交互组件库",
+    "gap_title": "痛点",
+    "gap_body": "目前的聊天框架在需要用户选择数据库、填写表单或确认操作时，只能返回 Markdown 对话。AI Business UI 让 Agent 可以渲染结构化的交互界面——只需返回一段 JSON。",
+    "contract_title": "契约",
+    "contract_body": "渲染器根据组件名称查找对应组件，使用 Zod 校验 props，然后渲染匹配的 React 组件。",
+    "what_you_get": "特性",
+    "feature_0": "9 个组件：Radio、Checkbox、Select、Form、Wizard、Card、Table、Upload",
+    "feature_1": "组件注册表——一行代码添加新组件",
+    "feature_2": "Zod 校验 props，端到端 TypeScript 类型推导",
+    "feature_3": "内置 Assistant UI 和 Vercel AI SDK 适配器",
+    "feature_4": "Headless 模式支持完全自定义样式",
+    "feature_5": "Dark Mode + Tailwind + shadcn 默认样式",
+    "btn_browse": "浏览组件",
+    "btn_playground": "打开 Playground"
+  },
+  "components": {
+    "title": "组件",
+    "subtitle": "每个卡片渲染一个示例 schema。操作界面，下方显示结果。"
+  },
+  "examples": {
+    "title": "示例",
+    "subtitle": "四个 Agent 流程示例。每个示例展示用户对话、Agent 输出的 schema，以及用户提交的值。",
+    "hide": "收起",
+    "show": "查看详情",
+    "user_says": "用户说",
+    "agent_emits": "Agent 输出",
+    "submitted": "提交给 Agent"
+  },
+  "assistant_ui": {
+    "title": "Assistant UI 适配器",
+    "subtitle": "本页面展示 Assistant UI 聊天中如何通过适配器渲染 show_ui 工具结果。",
+    "hints": "试试：'pick a database'、'create a website'",
+    "chat_thread": "聊天"
+  },
+  "ai_sdk": {
+    "title": "Vercel AI SDK 适配器",
+    "subtitle": "AIMessageUI 自动解析 data-ui 或 tool-show_ui 消息片段并渲染。",
+    "hints": "试试：'create a website'、'pick a database'",
+    "chat_thread": "聊天"
+  },
+  "playground": {
+    "title": "Playground",
+    "subtitle": "粘贴任意 UIAction schema 并预览渲染效果。",
+    "schema_json": "Schema JSON",
+    "schema_shape": "{ component, props } 格式",
+    "valid_json": "✓ JSON 有效",
+    "invalid_json": "✗",
+    "reset": "重置",
+    "live_output": "实时渲染输出",
+    "fix_json": "请修复 JSON 以继续渲染。",
+    "result_label": "结果",
+    "result_desc": "onSubmit / onCancel 返回值"
+  },
+  "common": {
+    "schema": "Schema",
+    "render": "渲染",
+    "result": "结果",
+    "cancel": "取消",
+    "confirm": "确认",
+    "submit": "提交",
+    "interact": "— 请在上方操作 —",
+    "cancelled": "（已取消）"
+  },
+  "title": {
+    "overview": "概览",
+    "components": "组件",
+    "playground": "Playground",
+    "assistant_ui": "Assistant UI",
+    "ai_sdk": "AI SDK",
+    "examples": "示例",
+    "not_found": "404"
+  }
+}
