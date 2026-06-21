@@ -1,12 +1,22 @@
 {
   "name": "ai-business-ui",
-  "private": true,
   "version": "0.1.0",
   "type": "module",
   "description": "Reusable Human-in-the-Loop component library for AI Agents. Schema-driven, headless, and integrable with Assistant UI, Vercel AI SDK, and CopilotKit.",
+  "main": "./dist/library/index.js",
+  "module": "./dist/library/index.js",
+  "types": "./dist/library/packages/core/index.d.ts",
+  "files": ["dist/library"],
+  "exports": {
+    ".": {
+      "import": "./dist/library/index.js",
+      "types": "./dist/library/packages/core/index.d.ts"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
+    "build:library": "tsc -p tsconfig.library.json && vite build --config vite.lib.config.ts && cp dist/es/index.js dist/library/index.js && cp dist/es/index.js.map dist/library/index.js.map",
     "lint": "eslint src tests demo --ext .ts,.tsx",
     "preview": "vite preview",
     "test": "vitest run",

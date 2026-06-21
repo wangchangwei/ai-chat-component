@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "declarationDir": "./dist/library",
+    "emitDeclarationOnly": true,
+    "outDir": "./dist/es"
+  },
+  "include": ["src/packages/core", "src/packages/components", "src/packages/adapter-ai-sdk", "src/packages/adapter-assistant-ui", "src/lib"],
+  "exclude": ["node_modules", "dist", "src/demo", "tests"]
+}

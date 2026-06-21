@@ -61,7 +61,7 @@ export function Sidebar({
           </span>
         </button>
         <a
-          href="https://github.com"
+          href="https://github.com/wangchangwei/ai-chat-component"
           className="block text-xs text-muted-foreground hover:underline"
         >
           {t("sidebar.github")} →
