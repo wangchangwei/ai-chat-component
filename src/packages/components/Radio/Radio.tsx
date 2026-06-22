@@ -39,13 +39,15 @@ export function RadioView({
       </header>
       <RadioGroup value={internal} onChange={pick} options={props.options} />
       <footer className="mt-4 flex justify-end gap-2">
-        <button
-          type="button"
-          className="text-xs text-muted-foreground hover:underline"
-          onClick={onCancel}
-        >
-          Cancel
-        </button>
+        {!internal && (
+          <button
+            type="button"
+            className="text-xs text-muted-foreground hover:underline"
+            onClick={onCancel}
+          >
+            Cancel
+          </button>
+        )}
         {manual && (
           <Button
             size="sm"

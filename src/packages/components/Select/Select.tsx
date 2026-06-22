@@ -47,9 +47,11 @@ export function SelectView({
         />
       </div>
       <footer className="mt-4 flex justify-end gap-2">
-        <Button variant="ghost" size="sm" onClick={onCancel}>
-          Cancel
-        </Button>
+        {!internal && (
+          <Button variant="ghost" size="sm" onClick={onCancel}>
+            Cancel
+          </Button>
+        )}
         <Button size="sm" onClick={() => internal && onSubmit(internal)} disabled={!canSubmit || !internal}>
           Submit
         </Button>
