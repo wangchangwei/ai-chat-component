@@ -7,6 +7,7 @@ import type {
   UploadValue,
   UploadFile,
 } from "../../core/schema/upload.js";
+import { defaultTheme } from "../../core/theme/classes.js";
 
 /**
  * Upload — file/image picker. Reads small files into a dataUri for inline
@@ -19,7 +20,9 @@ export function UploadView({
   onChange,
   onSubmit,
   onCancel,
+  theme = defaultTheme,
 }: UIRenderProps<UploadProps, UploadValue>) {
+  const t = theme;
   const [internal, setInternal] = React.useState<UploadFile[]>(value ?? []);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = React.useState(false);
@@ -94,11 +97,11 @@ export function UploadView({
   const canSubmit = !props.required || internal.length > 0;
 
   return (
-    <section className="aui-upload rounded-lg border bg-card p-4 shadow-sm">
-      <header className="mb-3">
-        <h3 className="text-base font-semibold leading-none">{props.title}</h3>
+    <section className={`aui-upload ${t.card}`}>
+      <header className={t.header}>
+        <h3 className={t.title}>{props.title}</h3>
         {props.description && (
-          <p className="mt-1 text-sm text-muted-foreground">{props.description}</p>
+          <p className={t.description}>{props.description}</p>
         )}
       </header>
       <div
@@ -109,17 +112,17 @@ export function UploadView({
         onDragLeave={() => setDragOver(false)}
         onDrop={onDrop}
         className={cn(
-          "rounded-md border border-dashed p-6 text-center text-sm transition-colors",
-          dragOver ? "border-primary bg-primary/5" : "border-input",
+          t.dropZone,
+          dragOver ? t.dropZoneActive : t.dropZoneIdle,
         )}
       >
-        <div className="text-muted-foreground">
+        <div className={t.dropPrompt}>
           Drop {props.multiple ? "files" : "a file"} here, or
         </div>
         <Button
           variant="outline"
           size="sm"
-          className="mt-3"
+          className={t.dropButton}
           onClick={() => inputRef.current?.click()}
         >
           Choose file{props.multiple ? "s" : ""}
@@ -133,32 +136,30 @@ export function UploadView({
           onChange={onPick}
         />
         {props.maxSize && (
-          <div className="mt-2 text-xs text-muted-foreground">
+          <div className={t.helperText}>
             Max size: {Math.round(props.maxSize / 1024)} KB
           </div>
         )}
       </div>
       {error && (
-        <div className="mt-3 rounded-md bg-destructive/10 px-3 py-2 text-xs text-destructive">
-          {error}
-        </div>
+        <div className={t.errorBanner}>{error}</div>
       )}
       {internal.length > 0 && (
-        <ul className="mt-3 space-y-1 text-sm">
+        <ul className={t.fileList}>
           {internal.map((f, i) => (
             <li
               key={`${f.name}-${i}`}
-              className="flex items-center justify-between rounded-md border bg-background px-3 py-2"
+              className={t.fileRow}
             >
               <span className="truncate">{f.name}</span>
-              <span className="ml-3 shrink-0 text-xs text-muted-foreground">
+              <span className={t.fileMeta}>
                 {Math.round(f.size / 1024)} KB
               </span>
             </li>
           ))}
         </ul>
       )}
-      <footer className="mt-4 flex justify-end gap-2">
+      <footer className={t.footer}>
         <Button variant="ghost" size="sm" onClick={onCancel}>
           Cancel
         </Button>

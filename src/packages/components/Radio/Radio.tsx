@@ -3,6 +3,7 @@ import { RadioGroup } from "../ui/RadioGroup.js";
 import { Button } from "../ui/Button.js";
 import type { UIRenderProps } from "../../core/registry/index.js";
 import type { RadioProps, RadioValue } from "../../core/schema/radio.js";
+import { defaultTheme } from "../../core/theme/classes.js";
 
 /**
  * Radio — single-choice picker.
@@ -16,7 +17,9 @@ export function RadioView({
   onChange,
   onSubmit,
   onCancel,
+  theme = defaultTheme,
 }: UIRenderProps<RadioProps, RadioValue>) {
+  const t = theme;
   const [internal, setInternal] = React.useState<string | undefined>(
     value ?? props.defaultValue,
   );
@@ -30,15 +33,15 @@ export function RadioView({
   }
 
   return (
-    <section className="aui-radio rounded-lg border bg-card p-4 shadow-sm">
-      <header className="mb-3">
-        <h3 className="text-base font-semibold leading-none">{props.title}</h3>
+    <section className={`aui-radio ${t.card}`}>
+      <header className={t.header}>
+        <h3 className={t.title}>{props.title}</h3>
         {props.description && (
-          <p className="mt-1 text-sm text-muted-foreground">{props.description}</p>
+          <p className={t.description}>{props.description}</p>
         )}
       </header>
       <RadioGroup value={internal} onChange={pick} options={props.options} />
-      <footer className="mt-4 flex justify-end gap-2">
+      <footer className={t.footer}>
         {!internal && (
           <button
             type="button"

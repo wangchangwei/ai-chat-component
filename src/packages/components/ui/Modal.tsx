@@ -13,6 +13,14 @@ export interface ModalProps {
   children?: React.ReactNode;
   footer?: React.ReactNode;
   className?: string;
+  /** Override the inner panel className */
+  panelClassName?: string;
+  /** Override the title className */
+  titleClassName?: string;
+  /** Override the description className */
+  descriptionClassName?: string;
+  /** Override the footer className */
+  footerClassName?: string;
 }
 
 export function Modal({
@@ -23,6 +31,10 @@ export function Modal({
   children,
   footer,
   className,
+  panelClassName,
+  titleClassName,
+  descriptionClassName,
+  footerClassName,
 }: ModalProps) {
   React.useEffect(() => {
     if (!open) return;
@@ -39,7 +51,7 @@ export function Modal({
       role="dialog"
       aria-modal="true"
       aria-label={title}
-      className="fixed inset-0 z-50 flex items-center justify-center"
+      className={cn("fixed inset-0 z-50 flex items-center justify-center", className)}
     >
       <div
         className="fixed inset-0 bg-black/50"
@@ -50,15 +62,25 @@ export function Modal({
         onClick={(e) => e.stopPropagation()}
         className={cn(
           "relative z-10 w-full max-w-md rounded-lg border bg-background p-6 shadow-lg",
-          className,
+          panelClassName,
         )}
       >
-        {title && <h2 className="text-lg font-semibold mb-1">{title}</h2>}
+        {title && (
+          <h2 className={cn("text-lg font-semibold mb-1", titleClassName)}>
+            {title}
+          </h2>
+        )}
         {description && (
-          <p className="text-sm text-muted-foreground mb-4">{description}</p>
+          <p className={cn("text-sm text-muted-foreground mb-4", descriptionClassName)}>
+            {description}
+          </p>
         )}
         {children}
-        {footer && <div className="mt-6 flex justify-end gap-2">{footer}</div>}
+        {footer && (
+          <div className={cn("mt-6 flex justify-end gap-2", footerClassName)}>
+            {footer}
+          </div>
+        )}
       </div>
     </div>
   );

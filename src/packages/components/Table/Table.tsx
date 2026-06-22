@@ -4,6 +4,7 @@ import { Checkbox as CheckboxUI } from "../ui/Checkbox.js";
 import { cn } from "../../../lib/utils.js";
 import type { UIRenderProps } from "../../core/registry/index.js";
 import type { TableProps, TableValue } from "../../core/schema/table.js";
+import { defaultTheme } from "../../core/theme/classes.js";
 
 /**
  * Table — display tabular data with optional row selection.
@@ -16,7 +17,9 @@ export function TableView({
   onChange,
   onSubmit,
   onCancel,
+  theme = defaultTheme,
 }: UIRenderProps<TableProps, TableValue>) {
+  const t = theme;
   const sel = props.rowSelection ?? "none";
   const multi = sel === "multiple";
   const single = sel === "single";
@@ -47,20 +50,20 @@ export function TableView({
   }
 
   return (
-    <section className="aui-table rounded-lg border bg-card p-4 shadow-sm">
-      <header className="mb-3">
-        <h3 className="text-base font-semibold leading-none">{props.title}</h3>
+    <section className={`aui-table ${t.card}`}>
+      <header className={t.header}>
+        <h3 className={t.title}>{props.title}</h3>
         {props.description && (
-          <p className="mt-1 text-sm text-muted-foreground">{props.description}</p>
+          <p className={t.description}>{props.description}</p>
         )}
       </header>
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+      <div className={t.tableWrapper}>
+        <table className={t.tableBase}>
           <thead>
             <tr className="border-b text-left">
               {multi && <th className="w-8 py-2"></th>}
               {props.columns.map((c) => (
-                <th key={c.key} className="py-2 pr-4 font-medium text-muted-foreground">
+                <th key={c.key} className={t.tableHead}>
                   {c.label}
                 </th>
               ))}
@@ -71,7 +74,7 @@ export function TableView({
               <tr>
                 <td
                   colSpan={props.columns.length + (multi ? 1 : 0)}
-                  className="py-6 text-center text-sm text-muted-foreground"
+                  className={t.tableEmpty}
                 >
                   No rows.
                 </td>
@@ -87,9 +90,9 @@ export function TableView({
                 <tr
                   key={row.id}
                   className={cn(
-                    "border-b last:border-0",
-                    (single || multi) && "cursor-pointer hover:bg-accent/40",
-                    selected && "bg-primary/5",
+                    t.tableRow,
+                    (single || multi) && t.tableRowInteractive,
+                    selected && t.tableRowSelected,
                   )}
                   onClick={() => (single || multi) && toggleRow(row.id)}
                 >
@@ -103,7 +106,7 @@ export function TableView({
                     </td>
                   )}
                   {props.columns.map((c) => (
-                    <td key={c.key} className="py-2 pr-4 align-top">
+                    <td key={c.key} className={t.tableCell}>
                       {formatCell(row[c.key])}
                     </td>
                   ))}
@@ -114,7 +117,7 @@ export function TableView({
         </table>
       </div>
       {multi && (
-        <footer className="mt-4 flex justify-end gap-2">
+        <footer className={t.footer}>
           <Button variant="ghost" size="sm" onClick={onCancel}>
             Cancel
           </Button>

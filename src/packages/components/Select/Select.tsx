@@ -4,6 +4,7 @@ import { Label } from "../ui/Label.js";
 import { Button } from "../ui/Button.js";
 import type { UIRenderProps } from "../../core/registry/index.js";
 import type { SelectProps, SelectValue } from "../../core/schema/select.js";
+import { defaultTheme } from "../../core/theme/classes.js";
 
 /**
  * Select — single-choice dropdown. User confirms with Submit.
@@ -14,7 +15,9 @@ export function SelectView({
   onChange,
   onSubmit,
   onCancel,
+  theme = defaultTheme,
 }: UIRenderProps<SelectProps, SelectValue>) {
+  const t = theme;
   const [internal, setInternal] = React.useState<string | undefined>(
     value ?? props.defaultValue,
   );
@@ -29,14 +32,14 @@ export function SelectView({
   const canSubmit = !props.required || Boolean(internal);
 
   return (
-    <section className="aui-select rounded-lg border bg-card p-4 shadow-sm">
-      <header className="mb-3">
-        <h3 className="text-base font-semibold leading-none">{props.title}</h3>
+    <section className={`aui-select ${t.card}`}>
+      <header className={t.header}>
+        <h3 className={t.title}>{props.title}</h3>
         {props.description && (
-          <p className="mt-1 text-sm text-muted-foreground">{props.description}</p>
+          <p className={t.description}>{props.description}</p>
         )}
       </header>
-      <div className="space-y-2">
+      <div className={t.fieldGap}>
         <Label htmlFor={id}>Value</Label>
         <SelectUI
           id={id}
@@ -44,9 +47,10 @@ export function SelectView({
           onChange={pick}
           options={props.options}
           placeholder={props.placeholder ?? "Select an option"}
+          className={t.selectTrigger}
         />
       </div>
-      <footer className="mt-4 flex justify-end gap-2">
+      <footer className={t.footer}>
         {!internal && (
           <Button variant="ghost" size="sm" onClick={onCancel}>
             Cancel

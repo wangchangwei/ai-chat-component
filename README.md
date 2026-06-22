@@ -12,6 +12,8 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![npm](https://img.shields.io/badge/npm-ai--business--ui-cb3833)](https://www.npmjs.com/package/ai-business-ui)
 
+![AI Business UI Screenshot](docs/screenshot.jpg)
+
 ---
 
 ## Installation · 安装

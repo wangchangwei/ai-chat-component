@@ -15,6 +15,7 @@ import type {
   WizardStep,
 } from "../../core/schema/wizard.js";
 import type { FormField } from "../../core/schema/form.js";
+import { defaultTheme, type Theme } from "../../core/theme/classes.js";
 
 function defaultForField(f: FormField): unknown {
   if ("defaultValue" in f && f.defaultValue !== undefined) return f.defaultValue;
@@ -38,7 +39,9 @@ export function WizardView({
   onChange,
   onSubmit,
   onCancel,
+  theme = defaultTheme,
 }: UIRenderProps<WizardProps, WizardValue>) {
+  const t = theme;
   const initialStep = Math.min(
     Math.max(value?.currentStep ?? 0, 0),
     Math.max(props.steps.length - 1, 0),
@@ -85,38 +88,38 @@ export function WizardView({
   }
 
   return (
-    <section className="aui-wizard rounded-lg border bg-card p-4 shadow-sm">
-      <header className="mb-3">
-        <h3 className="text-base font-semibold leading-none">{props.title}</h3>
+    <section className={`aui-wizard ${t.card}`}>
+      <header className={t.header}>
+        <h3 className={t.title}>{props.title}</h3>
         {props.description && (
-          <p className="mt-1 text-sm text-muted-foreground">{props.description}</p>
+          <p className={t.description}>{props.description}</p>
         )}
       </header>
 
-      <WizardStepper steps={props.steps} current={stepIdx} />
+      <WizardStepper steps={props.steps} current={stepIdx} theme={t} />
 
-      <div className="mt-4">
-        <h4 className="text-sm font-semibold">
+      <div className={t.stepBody}>
+        <h4 className={t.stepHeading}>
           Step {stepIdx + 1}: {step.title}
         </h4>
         {step.description && (
-          <p className="mt-1 text-xs text-muted-foreground">{step.description}</p>
+          <p className={t.stepSubheading}>{step.description}</p>
         )}
-        <div className="mt-3 space-y-4">
+        <div className={t.stepFieldsGap}>
           {step.fields.map((field) => {
             const id = `wiz-${field.name}`;
             return (
-              <div key={field.name} className="space-y-2">
+              <div key={field.name} className={t.fieldGap}>
                 <Label htmlFor={id}>{field.label}</Label>
-                <FormFieldControl field={field} id={id} value={values[field.name]} onChange={(v: unknown) => set(field.name, v)} />
+                <FormFieldControl field={field} id={id} value={values[field.name]} onChange={(v: unknown) => set(field.name, v)} theme={t} />
               </div>
             );
           })}
         </div>
       </div>
 
-      <footer className="mt-6 flex justify-between gap-2">
-        <div className="flex gap-2">
+      <footer className={t.wizardFooter}>
+        <div className={t.wizardFooterLeft}>
           <Button variant="ghost" size="sm" onClick={onCancel}>
             Cancel
           </Button>
@@ -137,29 +140,28 @@ export function WizardView({
 function WizardStepper({
   steps,
   current,
+  theme,
 }: {
   steps: WizardStep[];
   current: number;
+  theme: Theme;
 }) {
+  const t = theme;
   return (
-    <ol className="mt-3 flex items-center gap-2 overflow-x-auto pb-1">
+    <ol className={t.stepList}>
       {steps.map((s, i) => {
         const active = i === current;
         const done = i < current;
         return (
           <li
             key={s.id}
-            className={cn(
-              "flex items-center gap-2 text-xs whitespace-nowrap",
-              active && "font-semibold",
-            )}
+            className={cn(t.stepRow, active && t.stepRowActive)}
           >
             <span
               className={cn(
-                "flex h-6 w-6 items-center justify-center rounded-full border",
-                done && "bg-primary text-primary-foreground border-primary",
-                active && !done && "border-primary",
-                !active && !done && "border-input text-muted-foreground",
+                t.stepPill,
+                done && t.stepPillDone,
+                active && !done && t.stepPillActive,
               )}
               aria-hidden="true"
             >
@@ -167,7 +169,7 @@ function WizardStepper({
             </span>
             <span>{s.title}</span>
             {i < steps.length - 1 && (
-              <span aria-hidden="true" className="text-muted-foreground">
+              <span aria-hidden="true" className={t.stepArrow}>
                 →
               </span>
             )}
@@ -183,12 +185,15 @@ function FormFieldControl({
   id,
   value,
   onChange,
+  theme,
 }: {
   field: FormField;
   id: string;
   value: unknown;
   onChange: (v: unknown) => void;
+  theme: Theme;
 }) {
+  const t = theme;
   switch (field.type) {
     case "input":
       return (
@@ -228,14 +233,14 @@ function FormFieldControl({
       );
     case "switch":
       return (
-        <div className="flex items-center gap-3 pt-1">
+        <div className={t.switchRow}>
           <Switch
             id={id}
             checked={Boolean(value)}
             onCheckedChange={(v) => onChange(v)}
           />
           {field.description && (
-            <span className="text-xs text-muted-foreground">{field.description}</span>
+            <span className={t.choiceHelp}>{field.description}</span>
           )}
         </div>
       );
@@ -251,11 +256,11 @@ function FormFieldControl({
     case "checkbox": {
       const arr = (Array.isArray(value) ? value : []) as string[];
       return (
-        <div className="flex flex-col gap-2">
+        <div className={t.checkboxColumn}>
           {field.options.map((opt) => {
             const checked = arr.includes(opt.value);
             return (
-              <label key={opt.value} className="flex items-center gap-2 text-sm">
+              <label key={opt.value} className={t.checkboxItem}>
                 <CheckboxUI
                   checked={checked}
                   onCheckedChange={(on) => {
@@ -281,6 +286,7 @@ function FormFieldControl({
           onChange={(v) => onChange(v)}
           options={field.options}
           placeholder={field.placeholder}
+          className={t.selectTrigger}
         />
       );
   }

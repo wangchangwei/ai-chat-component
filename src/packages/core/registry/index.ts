@@ -1,5 +1,7 @@
 import type { ZodTypeAny } from "zod";
 import type { ComponentType } from "react";
+import type { Theme } from "../theme/classes.js";
+import { defaultTheme } from "../theme/classes.js";
 
 /**
  * Props passed to every concrete component implementation.
@@ -20,6 +22,14 @@ export interface UIRenderProps<TProps, TValue> {
   onSubmit: (value: TValue) => void;
   /** User dismissed/cancelled */
   onCancel: () => void;
+  /**
+   * Active theme. Always a fully-resolved Theme (never a partial override).
+   * The renderer resolves whatever the caller passes before forwarding, so
+   * components can read any slot without a fallback dance. Optional so
+   * custom View implementations written before v0.2.0 keep compiling —
+   * the renderer always supplies a value at runtime.
+   */
+  theme?: Theme;
 }
 
 /**

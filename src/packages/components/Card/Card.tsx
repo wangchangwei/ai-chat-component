@@ -4,6 +4,7 @@ import { Button } from "../ui/Button.js";
 import { cn } from "../../../lib/utils.js";
 import type { UIRenderProps } from "../../core/registry/index.js";
 import type { CardProps, CardValue } from "../../core/schema/card.js";
+import { defaultTheme } from "../../core/theme/classes.js";
 
 /**
  * Card — list of structured items. When `selectable`, lets the user pick one
@@ -15,7 +16,9 @@ export function CardView({
   onChange,
   onSubmit,
   onCancel,
+  theme = defaultTheme,
 }: UIRenderProps<CardProps, CardValue>) {
+  const t = theme;
   const multi = props.selectable && props.multi;
   const single = props.selectable && !props.multi;
 
@@ -45,11 +48,11 @@ export function CardView({
   }
 
   return (
-    <section className="aui-card rounded-lg border bg-card p-4 shadow-sm">
-      <header className="mb-3">
-        <h3 className="text-base font-semibold leading-none">{props.title}</h3>
+    <section className={`aui-card ${t.card}`}>
+      <header className={t.header}>
+        <h3 className={t.title}>{props.title}</h3>
         {props.description && (
-          <p className="mt-1 text-sm text-muted-foreground">{props.description}</p>
+          <p className={t.description}>{props.description}</p>
         )}
       </header>
       <div className="grid gap-3 sm:grid-cols-2">
@@ -66,37 +69,33 @@ export function CardView({
               disabled={!props.selectable}
               onClick={() => props.selectable && toggle(item.id)}
               className={cn(
-                "text-left transition-all",
-                props.selectable && "cursor-pointer hover:shadow-md",
-                !props.selectable && "cursor-default",
+                t.cardItemButton,
+                props.selectable ? t.cardItemButtonSelectable : t.cardItemButtonDisabled,
               )}
             >
               <CardUI
-                className={cn(
-                  "h-full",
-                  selected && "ring-2 ring-primary border-primary",
-                )}
+                className={cn(t.cardItem, selected && t.cardItemSelected)}
               >
                 {item.image && (
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="aspect-video w-full rounded-t-lg object-cover bg-muted"
+                    className={t.cardImage}
                   />
                 )}
-                <CardHeader>
-                  <CardTitle>{item.title}</CardTitle>
+                <CardHeader className={t.cardHeader}>
+                  <CardTitle className={t.cardTitle}>{item.title}</CardTitle>
                   {item.description && (
-                    <CardDescription>{item.description}</CardDescription>
+                    <CardDescription className={t.cardDescription}>{item.description}</CardDescription>
                   )}
                 </CardHeader>
                 {item.meta && Object.keys(item.meta).length > 0 && (
                   <CardContent className="pt-0">
-                    <dl className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs">
+                    <dl className={t.cardMetaGrid}>
                       {Object.entries(item.meta).map(([k, v]) => (
                         <React.Fragment key={k}>
-                          <dt className="text-muted-foreground">{k}</dt>
-                          <dd className="font-medium">{String(v)}</dd>
+                          <dt className={t.cardMetaKey}>{k}</dt>
+                          <dd className={t.cardMetaValue}>{String(v)}</dd>
                         </React.Fragment>
                       ))}
                     </dl>
@@ -108,7 +107,7 @@ export function CardView({
         })}
       </div>
       {multi && (
-        <footer className="mt-4 flex justify-end gap-2">
+        <footer className={t.footer}>
           <Button variant="ghost" size="sm" onClick={onCancel}>
             Cancel
           </Button>

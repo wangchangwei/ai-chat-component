@@ -9,6 +9,7 @@ import { Label } from "../ui/Label.js";
 import { Button } from "../ui/Button.js";
 import type { UIRenderProps } from "../../core/registry/index.js";
 import type { FormProps, FormValue, FormField } from "../../core/schema/form.js";
+import { defaultTheme, type Theme } from "../../core/theme/classes.js";
 
 function defaultForField(f: FormField): unknown {
   if ("defaultValue" in f && f.defaultValue !== undefined) return f.defaultValue;
@@ -33,7 +34,9 @@ export function FormView({
   onChange,
   onSubmit,
   onCancel,
+  theme = defaultTheme,
 }: UIRenderProps<FormProps, FormValue>) {
+  const t = theme;
   const [internal, setInternal] = React.useState<Record<string, unknown>>(() => {
     const seed: Record<string, unknown> = {};
     for (const f of props.fields) {
@@ -61,30 +64,30 @@ export function FormView({
   }
 
   return (
-    <section className="aui-form rounded-lg border bg-card p-4 shadow-sm">
-      <header className="mb-3">
-        <h3 className="text-base font-semibold leading-none">{props.title}</h3>
+    <section className={`aui-form ${t.card}`}>
+      <header className={t.header}>
+        <h3 className={t.title}>{props.title}</h3>
         {props.description && (
-          <p className="mt-1 text-sm text-muted-foreground">{props.description}</p>
+          <p className={t.description}>{props.description}</p>
         )}
       </header>
-      <div className="space-y-4">
+      <div className={t.fieldsGap}>
         {props.fields.map((field) => {
           const id = `field-${field.name}`;
           return (
-            <div key={field.name} className="space-y-2">
+            <div key={field.name} className={t.fieldGap}>
               <Label htmlFor={id}>
                 {field.label}
                 {"required" in field && field.required && (
-                  <span className="text-destructive ml-1">*</span>
+                  <span className={t.requiredMark}>*</span>
                 )}
               </Label>
-              <FormFieldControl field={field} id={id} value={internal[field.name]} onChange={(v) => set(field.name, v)} />
+              <FormFieldControl field={field} id={id} value={internal[field.name]} onChange={(v) => set(field.name, v)} theme={t} />
             </div>
           );
         })}
       </div>
-      <footer className="mt-6 flex justify-end gap-2">
+      <footer className={t.footer}>
         <Button variant="ghost" size="sm" onClick={onCancel}>
           {props.cancelLabel ?? "Cancel"}
         </Button>
@@ -101,9 +104,10 @@ interface FormFieldControlProps {
   id: string;
   value: unknown;
   onChange: (v: unknown) => void;
+  theme: Theme;
 }
 
-function FormFieldControl({ field, id, value, onChange }: FormFieldControlProps) {
+function FormFieldControl({ field, id, value, onChange, theme: t }: FormFieldControlProps) {
   switch (field.type) {
     case "input":
       return (
@@ -143,14 +147,14 @@ function FormFieldControl({ field, id, value, onChange }: FormFieldControlProps)
       );
     case "switch":
       return (
-        <div className="flex items-center gap-3 pt-1">
+        <div className={t.switchRow}>
           <Switch
             id={id}
             checked={Boolean(value)}
             onCheckedChange={(v) => onChange(v)}
           />
           {field.description && (
-            <span className="text-xs text-muted-foreground">{field.description}</span>
+            <span className={t.choiceHelp}>{field.description}</span>
           )}
         </div>
       );
@@ -166,13 +170,13 @@ function FormFieldControl({ field, id, value, onChange }: FormFieldControlProps)
     case "checkbox": {
       const arr = (Array.isArray(value) ? value : []) as string[];
       return (
-        <div className="flex flex-col gap-2">
+        <div className={t.checkboxColumn}>
           {field.options.map((opt) => {
             const checked = arr.includes(opt.value);
             return (
               <label
                 key={opt.value}
-                className="flex items-center gap-2 text-sm"
+                className={t.checkboxItem}
               >
                 <CheckboxUI
                   checked={checked}
@@ -199,6 +203,7 @@ function FormFieldControl({ field, id, value, onChange }: FormFieldControlProps)
           onChange={(v) => onChange(v)}
           options={field.options}
           placeholder={field.placeholder}
+          className={t.selectTrigger}
         />
       );
   }

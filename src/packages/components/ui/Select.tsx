@@ -8,6 +8,7 @@ export interface SelectProps {
   placeholder?: string;
   disabled?: boolean;
   id?: string;
+  className?: string;
 }
 
 /**
@@ -16,7 +17,7 @@ export interface SelectProps {
  * external dependencies. For richer UX, swap in a Radix-based primitive.
  */
 export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
-  ({ value, onChange, options, placeholder, disabled, id }, ref) => (
+  ({ value, onChange, options, placeholder, disabled, id, className }, ref) => (
     <select
       ref={ref}
       id={id}
@@ -27,6 +28,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
         "flex h-9 w-full items-center rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         "disabled:cursor-not-allowed disabled:opacity-50",
+        className,
       )}
     >
       {placeholder && (

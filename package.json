@@ -1,6 +1,6 @@
 {
   "name": "ai-business-ui",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "type": "module",
   "description": "Reusable Human-in-the-Loop component library for AI Agents. Schema-driven, headless, and integrable with Assistant UI, Vercel AI SDK, and CopilotKit.",
   "main": "./dist/library/index.js",

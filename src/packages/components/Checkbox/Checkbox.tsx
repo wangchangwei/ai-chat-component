@@ -5,6 +5,7 @@ import { Button } from "../ui/Button.js";
 import { cn } from "../../../lib/utils.js";
 import type { UIRenderProps } from "../../core/registry/index.js";
 import type { CheckboxProps, CheckboxValue } from "../../core/schema/checkbox.js";
+import { defaultTheme } from "../../core/theme/classes.js";
 
 /**
  * Checkbox — multi-choice picker.
@@ -17,7 +18,9 @@ export function CheckboxView({
   onChange,
   onSubmit,
   onCancel,
+  theme = defaultTheme,
 }: UIRenderProps<CheckboxProps, CheckboxValue>) {
+  const t = theme;
   const [internal, setInternal] = React.useState<string[]>(
     value ?? props.defaultValue ?? [],
   );
@@ -37,20 +40,20 @@ export function CheckboxView({
   }
 
   return (
-    <section className="aui-checkbox rounded-lg border bg-card p-4 shadow-sm">
-      <header className="mb-3">
-        <h3 className="text-base font-semibold leading-none">{props.title}</h3>
+    <section className={`aui-checkbox ${t.card}`}>
+      <header className={t.header}>
+        <h3 className={t.title}>{props.title}</h3>
         {props.description && (
-          <p className="mt-1 text-sm text-muted-foreground">{props.description}</p>
+          <p className={t.description}>{props.description}</p>
         )}
         {(min > 0 || max < props.options.length) && (
-          <p className="mt-1 text-xs text-muted-foreground">
+          <p className={t.description}>
             Choose {min === max ? min : `${min}–${max}`} option
             {max === 1 ? "" : "s"}.
           </p>
         )}
       </header>
-      <div className="flex flex-col gap-2">
+      <div className={t.checkboxColumn}>
         {props.options.map((opt) => {
           const checked = internal.includes(opt.value);
           const optId = `cb-${opt.value}`;
@@ -58,11 +61,7 @@ export function CheckboxView({
             <label
               key={opt.value}
               htmlFor={optId}
-              className={cn(
-                "flex items-start gap-3 rounded-md border border-input p-3 cursor-pointer transition-colors",
-                "hover:bg-accent/50",
-                checked && "border-primary bg-primary/5",
-              )}
+              className={cn(t.choiceRow, checked && t.choiceRowSelected)}
             >
               <CheckboxUI
                 id={optId}
@@ -71,20 +70,18 @@ export function CheckboxView({
                 aria-label={opt.label}
               />
               <div className="flex-1">
-                <Label htmlFor={optId} className="cursor-pointer">
+                <Label htmlFor={optId} className={t.choiceLabel}>
                   {opt.label}
                 </Label>
                 {opt.description && (
-                  <div className="text-xs text-muted-foreground mt-1">
-                    {opt.description}
-                  </div>
+                  <div className={t.choiceDescription}>{opt.description}</div>
                 )}
               </div>
             </label>
           );
         })}
       </div>
-      <footer className="mt-4 flex justify-end gap-2">
+      <footer className={t.footer}>
         <Button variant="ghost" size="sm" onClick={onCancel}>
           Cancel
         </Button>

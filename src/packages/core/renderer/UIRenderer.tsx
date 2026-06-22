@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import type { ComponentType } from "react";
 import type { UIAction } from "../schema/base.js";
 import { getComponent, type UIRenderProps } from "../registry/index.js";
+import { resolveTheme, type DeepPartial, type Theme } from "../theme/classes.js";
 
 export interface UIRendererProps<TValue = unknown> {
   /** The schema produced by the agent */
@@ -16,6 +17,12 @@ export interface UIRendererProps<TValue = unknown> {
    * is used. The renderer keeps the latest value internally.
    */
   initialValue?: TValue;
+  /**
+   * Theme override. Pass a partial to swap just a few slots
+   * (e.g. `{ input: "rounded-full" }`), or a fully-resolved Theme from
+   * `createTheme()`. Defaults to `defaultTheme`.
+   */
+  theme?: DeepPartial<Theme> | Theme;
 }
 
 /**
@@ -24,15 +31,17 @@ export interface UIRendererProps<TValue = unknown> {
  * Behavior:
  *   1. Looks up the component in the registry by `schema.component`.
  *   2. Validates `schema.props` against the registered Zod schema.
- *   3. Renders the React component, threading callbacks and the latest value.
+ *   3. Resolves the active theme.
+ *   4. Renders the React component, threading callbacks, value, and theme.
  *
  * If the component is unknown or the props are invalid, the renderer renders a
  * visible error block (not a thrown exception) so the chat UI stays alive.
  */
 export function UIRenderer<TValue = unknown>(props: UIRendererProps<TValue>) {
-  const { schema, onSubmit, onCancel, className, initialValue } = props;
+  const { schema, onSubmit, onCancel, className, initialValue, theme } = props;
 
   const entry = getComponent(schema.component);
+  const resolvedTheme = useMemo(() => resolveTheme(theme), [theme]);
 
   // Validate props eagerly so we can render a friendly error block
   const validation = useMemo(() => {
@@ -87,6 +96,7 @@ export function UIRenderer<TValue = unknown>(props: UIRendererProps<TValue>) {
         onChange={(v: TValue) => setInternalValue(v)}
         onSubmit={(v: TValue) => onSubmit?.(v)}
         onCancel={() => onCancel?.()}
+        theme={resolvedTheme}
       />
     </div>
   );
